@@ -2,8 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "RenderArea.h"
+#include <QPushButton>
+#include <QCheckBox>
+#include <QLineEdit>
 #include "ImageDrawer.h"
+#include "RenderArea.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -23,6 +26,24 @@ private:
   Ui::MainWindow *ui;
   RenderArea *renderArea;
   ImageDrawer *imageDrawer;
+
+
+  //Pencil items
+  QPushButton *pencilButton;
+
+  //Line items
+  QPushButton *lineButton;
+
+  //Perspective items
+  QPushButton *resetPerspectiveButton;
+  QPushButton *addPerspectiveButton;
+  QCheckBox *perspectiveEnabledCb;
+  bool isSelectingPerspectivePoints = false;
+
+  //Axonometry items
+  QLineEdit *alphaLineEdit;
+  QLineEdit *betaLineEdit;
+  QCheckBox *axonometryEnabledCb;
 
 };
 #endif // MAINWINDOW_H

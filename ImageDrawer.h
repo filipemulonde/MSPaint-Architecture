@@ -8,6 +8,9 @@
 #include <opencv2/imgproc.hpp>
 #include <opencv2/opencv.hpp>
 #include "PencilTool.h"
+#include "LineTool.h"
+#include "PerspectiveLineTool.h"
+#include "AxonometryLineTool.h"
 
 class ImageDrawer
 {
@@ -27,7 +30,9 @@ public:
   void mouse_press(int x, int y);
   void mouse_release(int x, int y);
 
-  cv::Mat getFrame() const;
+  cv::Mat getFrame();
+  int getHeight() const;
+  int getWidth() const;
 
   enum tool_t{
     PENCIL,
@@ -49,11 +54,19 @@ public:
 
 //  TODO:
 //  void setActiveColor(int r, int g, int b);
-//  void setActiveTool(const tool_t& tool);
-//  void setActiveMode(const work_mode_t& mode);
+
+  void setActiveTool(const tool_t& tool);
+  void setActiveMode(const work_mode_t& mode);
 //  void setAnchoringOptions(const anchoring_options_t& anchoring_option, bool active);
+  void setAxonometryAngles(double alpha, double beta);
 //  void setGridLines(int hor_tick_px, int ver_tick_px);
+//  void setGridLinesVisible(bool visible);
 //  void setPixelsPerMeter(float PPM);
+
+  void resetPerspectivePoints();
+  void addPerspectivePoints();
+  bool applyPerspectivePoints();
+//  void setPerspectivePointsVisible(bool visible);
 
 private:
 
@@ -64,16 +77,25 @@ private:
 
   cv::Mat image_layer;
   cv::Mat preview_layer;
+  cv::Mat perspective_points_layer;
 //  cv::Mat grid_layer;
 
   PencilTool *pencilTool;
+  LineTool *lineTool;
 
-//  std::vector<cv::Point2i> perspectivePoints;
-//  std::vector<float> axonometryAngles;
-//  std::vector<cv::Point2i> anchorPoints;
+  PerspectiveLineTool *perspectiveLineTool;
+  std::vector<cv::Point> perspectivePoints;
+  cv::Vec3b perspectivePointColor = cv::Vec3b(0, 0, 255);
+  bool isAddingPerspectivePoints = false;
+
+  AxonometryLineTool *axonometryLineTool;
+  std::vector<double> axonometryAngles;
+//  std::vector<cv::Point> anchorPoints;
 //  std::map<anchoring_options_t, bool> anchoringOptions;
 //  float ppm;
 //  bool ppm_is_set = false;
+
+  void addPerspectivePoint(int x, int y);
 
 };
 

@@ -16,15 +16,21 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    AxonometryLineTool.cpp \
     ImageDrawer.cpp \
+    LineTool.cpp \
     PencilTool.cpp \
+    PerspectiveLineTool.cpp \
     RenderArea.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
+    AxonometryLineTool.h \
     ImageDrawer.h \
+    LineTool.h \
     PencilTool.h \
+    PerspectiveLineTool.h \
     RenderArea.h \
     Tool.h \
     mainwindow.h

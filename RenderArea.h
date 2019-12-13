@@ -16,6 +16,7 @@ public:
   RenderArea(ImageDrawer *imageDrawer, QWidget *parent = nullptr);
   QSize minimumSizeHint() const override;
   QSize sizeHint() const override;
+  void initialize();
 
 protected:
 
@@ -25,11 +26,16 @@ protected:
   void mouseReleaseEvent(QMouseEvent *event) override;
   void enterEvent(QEvent *event) override;
 
+
 private:
 
   QPixmap pixmap;
   ImageDrawer *imageDrawer;
+
+  QSize drawingAreaSize;
+
   void updatePixmap();
+
 
 };
 
