@@ -22,6 +22,7 @@ SOURCES += \
     PencilTool.cpp \
     PerspectiveLineTool.cpp \
     RenderArea.cpp \
+    RulerTool.cpp \
     main.cpp \
     mainwindow.cpp
 
@@ -32,6 +33,7 @@ HEADERS += \
     PencilTool.h \
     PerspectiveLineTool.h \
     RenderArea.h \
+    RulerTool.h \
     Tool.h \
     mainwindow.h
 

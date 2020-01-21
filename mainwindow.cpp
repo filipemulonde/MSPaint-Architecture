@@ -1,13 +1,18 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <iostream>
+#include <QColorDialog>
+#include <QLabel>
+#include <QIntValidator>
 
 MainWindow::MainWindow(QWidget *parent):
   QMainWindow(parent),
   ui(new Ui::MainWindow)
 {
   ui->setupUi(this);
-  imageDrawer = new ImageDrawer(1280, 1920);
+
+  int width=800, height = 600;
+  imageDrawer = new ImageDrawer(width, height);
   QWidget *drawingArea = findChild<QWidget*>("drawingAreaWidget");
   renderArea = new RenderArea(imageDrawer, drawingArea);
   renderArea->initialize();
@@ -20,6 +25,10 @@ MainWindow::MainWindow(QWidget *parent):
   lineButton->setCheckable(true);
   lineButton->setChecked(false);
 
+  rulerButton = findChild<QPushButton*>("rulerButton");
+  rulerButton->setCheckable(true);
+  rulerButton->setChecked(false);
+
   resetPerspectiveButton = findChild<QPushButton*>("resetPerspectiveButton");
   addPerspectiveButton = findChild<QPushButton*>("addPerspectiveButton");
   perspectiveEnabledCb = findChild<QCheckBox*>("perspectiveEnabledCheckBox");
@@ -28,19 +37,38 @@ MainWindow::MainWindow(QWidget *parent):
   betaLineEdit = findChild<QLineEdit*>("betaLineEdit");
   axonometryEnabledCb = findChild<QCheckBox*>("axonometryEnabledCheckBox");
 
+  colorButton = findChild<QPushButton*>("colorButton");
+  currentColorLabel = findChild<QLabel*>("currentColorLabel");
+  QPalette palette = currentColorLabel->palette();
+  palette.setColor(QPalette::Window, Qt::black);
+  currentColorLabel->setAutoFillBackground(true);
+  currentColorLabel->setPalette(palette);
+
+  horTickLineEdit = findChild<QLineEdit*>("horTickLineEdit");
+  horTickLineEdit->setValidator(new QIntValidator(1, width, this));
+  verTickLineEdit = findChild<QLineEdit*>("verTickLineEdit");
+  verTickLineEdit->setValidator(new QIntValidator(1, height, this));
+  gridlinesEnabledCb = findChild<QCheckBox*>("gridlinesEnabledCheckBox");
 
   // Simple tool buttons
   connect(pencilButton, &QPushButton::clicked, [&](){
     pencilButton->setChecked(true);
     lineButton->setChecked(false);
+    rulerButton->setChecked(false);
     imageDrawer->setActiveTool(ImageDrawer::PENCIL);
   });
   connect(lineButton, &QPushButton::clicked, [&](){
     lineButton->setChecked(true);
     pencilButton->setChecked(false);
+    rulerButton->setChecked(false);
     imageDrawer->setActiveTool(ImageDrawer::LINE);
   });
-
+  connect(rulerButton, &QPushButton::clicked, [&](){
+    rulerButton->setChecked(true);
+    pencilButton->setChecked(false);
+    lineButton->setChecked(false);
+    imageDrawer->setActiveTool(ImageDrawer::RULER);
+  });
 
   // Perspective drawing items
   connect(addPerspectiveButton, &QPushButton::clicked, [&](){
@@ -97,6 +125,39 @@ MainWindow::MainWindow(QWidget *parent):
       break;
     }
 
+  });
+
+  //Color button
+  connect(colorButton, &QPushButton::clicked, [&](){
+    QColor color = QColorDialog::getColor(currentColor, this, "Pick a color",  QColorDialog::DontUseNativeDialog);
+    QPalette palette = currentColorLabel->palette();
+    palette.setColor(QPalette::Window, color);
+    currentColorLabel->setAutoFillBackground(true);
+    currentColorLabel->setPalette(palette);
+
+    int r, g, b;
+    color.getRgb(&r, &g, &b);
+    imageDrawer->setActiveColor(r, g, b);
+  });
+
+  //Gridlines
+  connect(gridlinesEnabledCb, &QCheckBox::stateChanged, [&](int state){
+
+    int horTickPx = horTickLineEdit->text().toInt();
+    int verTickPx = verTickLineEdit->text().toInt();
+
+    switch(state)
+    {
+    case Qt::Checked:
+      imageDrawer->setGridLines(horTickPx, verTickPx);
+      imageDrawer->setGridLinesVisible(true);
+      renderArea->update();
+      break;
+    case Qt::Unchecked:
+      imageDrawer->setGridLinesVisible(false);
+      renderArea->update();
+      break;
+    }
   });
 }
 
