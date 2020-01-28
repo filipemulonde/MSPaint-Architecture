@@ -1,5 +1,6 @@
 #include "ImageDrawer.h"
 #include <algorithm>
+#include <QDebug>
 
 ImageDrawer::ImageDrawer(int imageWidth, int imageHeight)
 {
@@ -9,12 +10,14 @@ ImageDrawer::ImageDrawer(int imageWidth, int imageHeight)
   activeColor = cv::Vec3b(0,0,0);
   pencilTool = new PencilTool(image_layer, preview_layer, activeColor);
   lineTool = new LineTool(image_layer, preview_layer, activeColor);
+  rulerTool = new RulerTool(image_layer, preview_layer, activeColor);
   perspectiveLineTool = new PerspectiveLineTool(image_layer, preview_layer, activeColor, perspectivePoints);
   axonometryLineTool = new AxonometryLineTool(image_layer, preview_layer, activeColor, axonometryAngles);
   activeTool = pencilTool;
   activeToolType = tool_t::PENCIL;
   activeMode = work_mode_t::NORMAL;
-
+  horTickPx = verTickPx = 10;
+  gridlinesEnabled = false;
 }
 
 ImageDrawer::ImageDrawer(const std::string& image_filepath)
@@ -41,7 +44,33 @@ cv::Mat ImageDrawer::getFrame()
     });
   }
 
+  if(gridlinesEnabled)
+  {
+    for(int x = 0; x < getWidth(); x += horTickPx)
+      cv::line(result, cv::Point(x, 0), cv::Point(x, getHeight()-1), cv::Scalar(160, 160, 160));
+    for(int y = 0; y < getHeight(); y += verTickPx)
+      cv::line(result, cv::Point(0, y), cv::Point(getWidth()-1, y), cv::Scalar(160, 160, 160));
+  }
+
   return result;
+}
+void ImageDrawer::resize(int width, int height){
+
+
+       // image_layer.release();
+        image_layer.size[0] = height;
+        image_layer.size[1] = width;
+
+
+};
+
+
+ cv::Mat ImageDrawer::open(const std::string& in_filepath){
+
+
+    return image_layer =  cv::imread(in_filepath);
+
+
 }
 
 int ImageDrawer::getHeight() const
@@ -52,6 +81,15 @@ int ImageDrawer::getHeight() const
 int ImageDrawer::getWidth() const
 {
   return image_layer.size[1];
+}
+
+void ImageDrawer::setActiveColor(int r, int g, int b)
+{
+  activeColor = cv::Vec3b(r, g, b);
+  pencilTool->setColor(activeColor);
+  lineTool->setColor(activeColor);
+  perspectiveLineTool->setColor(activeColor);
+  axonometryLineTool->setColor(activeColor);
 }
 
 void ImageDrawer::setActiveTool(const ImageDrawer::tool_t &tool)
@@ -65,6 +103,8 @@ void ImageDrawer::setActiveTool(const ImageDrawer::tool_t &tool)
   case tool_t::LINE:
     activeTool = lineTool;
     break;
+  case tool_t::RULER:
+    activeTool = rulerTool;
   default:
     break;
   }
@@ -92,6 +132,17 @@ void ImageDrawer::setAxonometryAngles(double alpha, double beta)
   axonometryAngles.push_back(beta);
 }
 
+void ImageDrawer::setGridLines(int hor_tick_px, int ver_tick_px)
+{
+  horTickPx = hor_tick_px;
+  verTickPx = ver_tick_px;
+}
+
+void ImageDrawer::setGridLinesVisible(bool visible)
+{
+  gridlinesEnabled = visible;
+}
+
 void ImageDrawer::resetPerspectivePoints()
 {
   perspectivePoints.clear();
@@ -111,6 +162,7 @@ bool ImageDrawer::applyPerspectivePoints()
 
 void ImageDrawer::mouse_move(int x, int y)
 {
+  qDebug() << "mouse_move";
   activeTool->mouse_move(cv::Point(x, y));
 }
 

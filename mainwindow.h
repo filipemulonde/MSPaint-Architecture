@@ -5,6 +5,8 @@
 #include <QPushButton>
 #include <QCheckBox>
 #include <QLineEdit>
+#include <QLabel>
+#include <QColor>
 #include "ImageDrawer.h"
 #include "RenderArea.h"
 
@@ -28,11 +30,23 @@ private:
   ImageDrawer *imageDrawer;
 
 
+  //Menu open
+   QAction * NewMenuItem;
+    //open Menu Item
+   QAction *openMenuItem;
+   //Save Menu Item
+    QAction * SaveMenuItem;
+    //Save As MenuItem
+    QAction * SaveAsMenuItem;
+
   //Pencil items
   QPushButton *pencilButton;
 
   //Line items
   QPushButton *lineButton;
+
+  //Ruler
+  QPushButton *rulerButton;
 
   //Perspective items
   QPushButton *resetPerspectiveButton;
@@ -44,6 +58,16 @@ private:
   QLineEdit *alphaLineEdit;
   QLineEdit *betaLineEdit;
   QCheckBox *axonometryEnabledCb;
+
+  //Color
+  QPushButton *colorButton;
+  QLabel *currentColorLabel;
+  QColor currentColor;
+
+  //Gridlines
+  QLineEdit *horTickLineEdit;
+  QLineEdit *verTickLineEdit;
+  QCheckBox *gridlinesEnabledCb;
 
 };
 #endif // MAINWINDOW_H

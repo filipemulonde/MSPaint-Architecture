@@ -15,6 +15,7 @@ RenderArea::RenderArea(ImageDrawer* imageDrawer, QWidget *parent)
   setBackgroundRole(QPalette::Base);
   setAutoFillBackground(true);
   updatePixmap();
+  setMouseTracking(true);
 }
 
 QSize RenderArea::minimumSizeHint() const

@@ -22,7 +22,9 @@ SOURCES += \
     PencilTool.cpp \
     PerspectiveLineTool.cpp \
     RenderArea.cpp \
+    RulerTool.cpp \
     main.cpp \
+    imagedrawsize.cpp \
     mainwindow.cpp
 
 HEADERS += \
@@ -32,10 +34,13 @@ HEADERS += \
     PencilTool.h \
     PerspectiveLineTool.h \
     RenderArea.h \
+    RulerTool.h \
+    imagedrawsize.h \
     Tool.h \
     mainwindow.h
 
 FORMS += \
+    imagedrawsize.ui \
     mainwindow.ui
 
 # Default rules for deployment.
@@ -45,9 +50,12 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 INCLUDEPATH += C:\opencv\build\include
 
-LIBS += C:\opencv-build\bin\libopencv_core411.dll
-LIBS += C:\opencv-build\bin\libopencv_highgui411.dll
-LIBS += C:\opencv-build\bin\libopencv_imgcodecs411.dll
-LIBS += C:\opencv-build\bin\libopencv_imgproc411.dll
-LIBS += C:\opencv-build\bin\libopencv_features2d411.dll
-LIBS += C:\opencv-build\bin\libopencv_calib3d411.dll
+LIBS += C:\opencv-build\bin\libopencv_core412.dll
+LIBS += C:\opencv-build\bin\libopencv_highgui412.dll
+LIBS += C:\opencv-build\bin\libopencv_imgcodecs412.dll
+LIBS += C:\opencv-build\bin\libopencv_imgproc412.dll
+LIBS += C:\opencv-build\bin\libopencv_features2d412.dll
+LIBS += C:\opencv-build\bin\libopencv_calib3d412.dll
+
+RESOURCES += \
+    images.qrc

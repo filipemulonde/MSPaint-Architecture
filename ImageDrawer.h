@@ -7,10 +7,12 @@
 #include <opencv2/core.hpp>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/opencv.hpp>
+#include <opencv2/highgui/highgui.hpp>
 #include "PencilTool.h"
 #include "LineTool.h"
 #include "PerspectiveLineTool.h"
 #include "AxonometryLineTool.h"
+#include "RulerTool.h"
 
 class ImageDrawer
 {
@@ -22,9 +24,9 @@ public:
   virtual ~ImageDrawer();
 
 //  TODO:
-//  void resize(int width, int height);
+   void resize(int width, int height);
 //  void save(const std::string& out_filepath);
-//  void open(const std::string& in_filepath);
+     cv::Mat open(const std::string& in_filepath);
 
   void mouse_move(int x, int y);
   void mouse_press(int x, int y);
@@ -53,14 +55,14 @@ public:
     ANCHOR_HORIZONTAL_LINE_ENDS};
 
 //  TODO:
-//  void setActiveColor(int r, int g, int b);
+  void setActiveColor(int r, int g, int b);
 
   void setActiveTool(const tool_t& tool);
   void setActiveMode(const work_mode_t& mode);
 //  void setAnchoringOptions(const anchoring_options_t& anchoring_option, bool active);
   void setAxonometryAngles(double alpha, double beta);
-//  void setGridLines(int hor_tick_px, int ver_tick_px);
-//  void setGridLinesVisible(bool visible);
+  void setGridLines(int hor_tick_px, int ver_tick_px);
+  void setGridLinesVisible(bool visible);
 //  void setPixelsPerMeter(float PPM);
 
   void resetPerspectivePoints();
@@ -82,6 +84,7 @@ private:
 
   PencilTool *pencilTool;
   LineTool *lineTool;
+  RulerTool *rulerTool;
 
   PerspectiveLineTool *perspectiveLineTool;
   std::vector<cv::Point> perspectivePoints;
@@ -94,6 +97,9 @@ private:
 //  std::map<anchoring_options_t, bool> anchoringOptions;
 //  float ppm;
 //  bool ppm_is_set = false;
+
+  int horTickPx, verTickPx;
+  bool gridlinesEnabled;
 
   void addPerspectivePoint(int x, int y);
 

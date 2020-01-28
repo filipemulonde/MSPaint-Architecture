@@ -1,0 +1,28 @@
+<RCC>
+    <qresource prefix="/icones">
+        <file>icon/add.png</file>
+        <file>icon/color.jfif</file>
+        <file>icon/color1.png</file>
+        <file>icon/new.png</file>
+        <file>icon/new1.png</file>
+        <file>icon/pencil.png</file>
+        <file>icon/reset.png</file>
+        <file>icon/ruler.png</file>
+        <file>icon/ruler1.png</file>
+        <file>icon/save.png</file>
+        <file>icon/pencil-drawing-pngrepo-com.png</file>
+        <file>icon/pencil-draw-pngrepo-com.png</file>
+        <file>icon/add-pngrepo-com.png</file>
+        <file>icon/Editing-Line-icon.png</file>
+        <file>icon/open-empty-folder-outline-pngrepo-com.png</file>
+        <file>icon/pencil-draw-pngrepo-com (1).png</file>
+        <file>icon/pencil-draw-pngrepo-com (2).png</file>
+        <file>icon/ruler-pngrepo-com.png</file>
+        <file>icon/save-pngrepo-com.png</file>
+        <file>icon/watercolor-pngrepo-com.png</file>
+        <file>icon/Clear-icon.png</file>
+        <file>icon/eraser-pngrepo-com.png</file>
+        <file>icon/new-file-pngrepo-com.png</file>
+        <file>icon/apply-icon.png</file>
+    </qresource>
+</RCC>
